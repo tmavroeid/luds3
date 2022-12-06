@@ -1,43 +1,76 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors')
+const express = require('express')
+const path = require('path')
+const cookieParser = require('cookie-parser')
+const swaggerJSDoc = require('swagger-jsdoc')
+const logger = require('./common/logger')
+const swaggerUi = require('swagger-ui-express')
+const helmet = require('helmet')
+const cors = require('cors')
 
-var indexRouter = require('./routes/index');
-var downloadRouter = require('./routes/download')
+const s3Router = require('./routes/index')
 
-var app = express();
+const app = express()
 
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Express API',
+    version: '1.0.0',
+    description:
+      'This is a REST API made with Express to list S3 buckets and download files',
+    license: {
+      name: 'Licensed Under MIT'
+    },
+    contact: {
+      name: 'The Ex Machina development team'
+    }
+  },
+  servers: [
+    {
+      url: 'http://localhost:8000'
+    }
+  ]
+}
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.js']
+}
+const swaggerSpec = swaggerJSDoc(options)
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-//app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'))
+// app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'hbs')
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(helmet())
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
 
-// Here the configuration of which route should handle the request is made
-app.use('/list', indexRouter);
-app.use('/download', downloadRouter);
+app.use('/', s3Router)
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
+app.get('/healthcheck', (req, res) => {
+  res.sendStatus(200)
+})
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+app.use(function (req, res, next) {
+  next(createError(404))
+})
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.message = err.message
+  res.locals.error = req.app.get('env') === 'development' ? err : {}
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+  res.status(err.status || 500)
+  res.render('error')
+})
 
-module.exports = app;
+module.exports = app
