@@ -3,24 +3,26 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server.js",
+    "format": "standard --fix"
   },
   "dependencies": {
-    "aws-sdk": "^2.647.0",
-    "body-parser": "^1.19.0",
+    "aws-sdk": "^2.1268.0",
     "chalk": "^3.0.0",
+    "commander": "^9.4.1",
     "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "dotenv": "^8.2.0",
-    "ejs": "^3.0.2",
-    "events": "^3.1.0",
-    "express": "~4.16.1",
-    "hbs": "^4.1.1",
+    "cors": "^2.8.5",
+    "depcheck": "^1.4.3",
+    "dotenv": "^8.6.0",
+    "express": "^4.18.2",
+    "hbs": "^4.2.0",
+    "helmet": "^6.0.1",
     "http-errors": "~1.6.3",
     "is-empty": "^1.2.0",
-    "morgan": "~1.9.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
+    "standard": "^17.0.0",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.6.0",
+    "winston": "^3.8.2",
+    "winston-sentry-log": "^1.0.26"
   }
 }
