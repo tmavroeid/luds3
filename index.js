@@ -2,7 +2,7 @@
 const { program } = require('commander')
 const path = require('path')
 const logger = require('./common/logger')
-const { setupCredentials, getCredentials, listing, download, deploy } = require(path.join(__dirname, '/beskad.js'))
+const { setupCredentials, getCredentials, listing, download, deploy } = require(path.join(__dirname, '/luds3.js'))
 
 program
   .command('set-credentials')
