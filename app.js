@@ -18,7 +18,7 @@ const swaggerDefinition = {
     title: 'Express API',
     version: '1.0.0',
     description:
-      'This is a REST API made with Express to list S3 buckets and download files',
+      'This is a REST API made with Express to list S3 buckets and upload/download files',
     license: {
       name: 'Licensed Under MIT'
     },
@@ -28,7 +28,7 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://localhost:8000'
+      url: 'http://localhost:8008'
     }
   ]
 }
