@@ -1,13 +1,13 @@
 {
   "name": "server",
-  "version": "0.0.0",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
     "start": "node server.js",
     "format": "standard --fix"
   },
   "bin": {
-    "beskad": "./index.js"
+    "luds3": "./index.js"
   },
   "dependencies": {
     "aws-sdk": "^2.1268.0",
@@ -26,7 +26,6 @@
     "standard": "^17.0.0",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.6.0",
-    "winston": "^3.8.2",
-    "winston-sentry-log": "^1.0.26"
+    "winston": "^3.8.2"
   }
 }
