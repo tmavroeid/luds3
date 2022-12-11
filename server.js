@@ -12,7 +12,7 @@ const http = require('http')
   * Get port from environment and store in Express.
   */
 
-const port = normalizePort(process.env.PORT || '8000')
+const port = normalizePort(process.env.PORT || '8008')
 app.set('port', port)
 
 /**
@@ -89,4 +89,10 @@ function onListening () {
   debug('Listening on ' + bind)
   console.log('Listening on', bind)
   console.log('Avaliable Endpoints: /list, /download/[FILEKEY]')
+}
+
+module.exports = {
+  normalizePort,
+  onError,
+  onListening
 }
