@@ -2,15 +2,14 @@ const path = require('path')
 const app = require('./app')
 const debug = require('debug')('server:server')
 const http = require('http')
-const { getS3object, bytestoniceformat, getS3directorylisting } = require(path.join(__dirname, '/logic/utils'))
+const { getS3object, download, bytesToNiceFormat, getS3directorylisting } = require(path.join(__dirname, '/logic/utils'))
+
 const logger = require('winston')
 const conf = new (require('conf'))()
 const chalk = require('chalk')
 const info = (msg) => logger.log('info', `${msg}`)
 const error = (msg, stacktrace = undefined) => logger.log('error', `[Controllers] ${msg}`, stacktrace)
-const port = normalizePort(process.env.PORT || '8008')
-app.set('port', port)
-const server = http.createServer(app)
+
 
 function setupCredentials ({ accesskey, secretkey, region }) {
   let userCreds = conf.get('user-creds')
@@ -41,23 +40,27 @@ function getCredentials () {
 
 function listing ({ bucket }) {
   return getS3directorylisting(bucket)
-    .then((results) => {
-      results.forEach((element) => {
-        if (element.Size === 0) {
-          info(chalk.white.italic(element.Key))
-        } else {
-          info(chalk.white.italic(element.Key) + ' -- ' + chalk.white.italic(bytesToNiceFormat(element.Size)))
-        }
-      })
-      return results
+    .then((s3keys) => {
+      if(Array.isArray(s3keys)){
+        s3keys.forEach((element) => {
+          if (element.Size === 0) {
+            info(chalk.white.italic(element.Key))
+          } else {
+            info(chalk.white.italic(element.Key) + ' -- ' + chalk.white.italic(bytesToNiceFormat(element.Size)))
+          }
+        })
+      }else{
+        info(chalk.red.italic('SOMETHING WENT WRONG RETRIEVING THE S3 KEYS'))
+      }
+      return true
     }).catch((err) => {
       error(err)
       return err
     })
 }
 
-function download (key) {
-  return getS3object(key)
+function downloadFile ({bucket,key}) {
+  return download(bucket,key)
     .then((result) => {
       return result
     }).catch((err) => {
@@ -67,74 +70,19 @@ function download (key) {
 }
 
 function deploy ({ bucket }) {
-  server.listen(port)
+  const { normalizePort, onError, onListening } = require(path.join(__dirname, '/server.js'))
+  const port = normalizePort(process.env.PORT || '8008')
+  app.set('port', port)
+  const server = http.createServer(app)
   server.on('error', onError)
   server.on('listening', onListening)
   process.env.AWS_BUCKET_NAME = bucket
-}
-
-function normalizePort (val) {
-  const port = parseInt(val, 10)
-
-  if (isNaN(port)) {
-    // named pipe
-    return val
-  }
-
-  if (port >= 0) {
-    // port number
-    return port
-  }
-
-  return false
-}
-
-/**
-    * Event listener for HTTP server "error" event.
-    */
-
-function onError (error) {
-  if (error.syscall !== 'listen') {
-    throw error
-  }
-
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      error(bind + ' requires elevated privileges')
-      process.exit(1)
-      break
-    case 'EADDRINUSE':
-      error(bind + ' is already in use')
-      process.exit(1)
-      break
-    default:
-      throw error
-  }
-}
-
-/**
-    * Event listener for HTTP server "listening" event.
-    */
-
-function onListening () {
-  const addr = server.address()
-  const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port
-  debug('Listening on ' + bind)
-  console.log('Listening on', bind)
-  console.log('Avaliable Endpoints: /list, /download/[FILEKEY]')
 }
 
 module.exports = {
   setupCredentials,
   getCredentials,
   listing,
-  download,
+  downloadFile,
   deploy
 }
