@@ -2,7 +2,7 @@
 const { program } = require('commander')
 const path = require('path')
 const logger = require('./common/logger')
-const { setupCredentials, getCredentials, listing, download, deploy } = require(path.join(__dirname, '/luds3.js'))
+const { setupCredentials, getCredentials, listing, downloadFile, deploy } = require(path.join(__dirname, '/luds3.js'))
 
 program
   .command('set-credentials')
@@ -31,8 +31,9 @@ program
 
 program
   .command('download')
-  .requiredOption('-bucket, --bucket <value>', 'The bucket to list all items.')
+  .requiredOption('-bucket, --bucket <value>', 'The bucket from which to download the selected item (key).')
+  .requiredOption('-key, --key <value>', 'The item (key) to download.')
   .description('Downloads file from S3 bucket.')
-  .action(download)
+  .action(downloadFile)
 
 program.parse()
