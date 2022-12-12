@@ -3,8 +3,9 @@ const logger = require('winston')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+const path = require('path')
 const conf = new (require('conf'))()
-const empty = require('is-empty')
+const fs = require('fs')
 const chalk = require('chalk')
 const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 const info = (msg) => logger.log('info', `${msg}`)
@@ -14,7 +15,12 @@ const userCreds = conf.get('user-creds')
 
 AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
 
-function getS3object (fileKey) {
+function getS3object (bucket,fileKey) {
+  const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
+  if (typeof bucketname === 'undefined') {
+    error(chalk.red.bold('MISSING BUCKET'))
+    return false
+  }
   const s3 = new AWS.S3()
   // Create the parameters for getting the object of a specific key
   const fileParams = {
@@ -23,6 +29,33 @@ function getS3object (fileKey) {
   }
   // A filestream is initiated and its result is streamed to the frontend modules and then to the client
   return s3.getObject(fileParams).createReadStream()
+}
+
+function download (bucket, fileKey){
+  const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
+  if (typeof bucketname === 'undefined') {
+    error(chalk.red.bold('MISSING BUCKET'))
+    return false
+  }
+  
+  const s3 = new AWS.S3()
+  // Create the parameters for getting the object of a specific key
+  const fileParams = {
+    Bucket: bucketname,
+    Key: fileKey
+  }
+
+  let key = path.basename(fileKey)
+  let file = fs.createWriteStream(__dirname+'/'+key)
+  return new Promise((resolve, reject) => {
+    s3.getObject(fileParams).createReadStream()
+    .on('end', () => {
+        return resolve();
+    })
+    .on('error', (error) => {
+        return reject(error);
+    }).pipe(file)
+  });
 }
 
 function listObjects (params, s3, s3buckets = []) {
@@ -70,6 +103,7 @@ function getS3directorylisting (bucket) {
 }
 module.exports = {
   getS3object,
+  download,
   bytesToNiceFormat,
   getS3directorylisting
 }
