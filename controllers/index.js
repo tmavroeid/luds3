@@ -28,13 +28,12 @@ function apiS3listing (req, res, next) {
     })
 }
 
-// this is the controller enabling the process of downloding a file
 function s3download (req, res, next) {
   res.attachment(req.params.key)
   return getS3object(req.params.key)
     .then((result) => {
       result.pipe(res)
-      return true
+      return result
     }).catch((err) => {
       error(err)
       res.status(400).send(err)
@@ -45,7 +44,7 @@ function apiS3download (req, res, next) {
   res.attachment(req.params.key)
   return getS3object(req.params.key)
     .then((result) => {
-      res.status(200).send(result)
+      result.pipe(res)
       return result
     }).catch((err) => {
       error(err)
