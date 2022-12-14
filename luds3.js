@@ -2,7 +2,7 @@ const path = require('path')
 const app = require('./app')
 const debug = require('debug')('server:server')
 const http = require('http')
-const { getS3object, download, bytesToNiceFormat, getS3directorylisting } = require(path.join(__dirname, '/logic/utils'))
+const { getS3object, download, upload, bytesToNiceFormat, getS3directorylisting } = require(path.join(__dirname, '/logic/utils'))
 
 const logger = require('winston')
 const conf = new (require('conf'))()
@@ -69,6 +69,16 @@ function downloadFile ({bucket,key}) {
     })
 }
 
+function uploadFile ({bucket, filepath, prefix}) {
+  return upload(bucket, filepath, prefix)
+    .then((result) => {
+      return result
+    }).catch((err) => {
+      error(err)
+      return err
+    })
+}
+
 function deploy ({ bucket }) {
   const { normalizePort, onError, onListening } = require(path.join(__dirname, '/server.js'))
   const port = normalizePort(process.env.PORT || '8008')
@@ -84,5 +94,6 @@ module.exports = {
   getCredentials,
   listing,
   downloadFile,
+  uploadFile,
   deploy
 }
