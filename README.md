@@ -1,5 +1,5 @@
-# REST API for S3 Operations
-
+# luds3
+This is a CLI tool that enables fast content listing of S3 buckets. Also, it allows to easily upload and download files.
 
 
 ##### Table of Contents  
