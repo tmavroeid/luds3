@@ -3,18 +3,31 @@ This is a CLI tool that enables fast content listing of S3 buckets. Also, it all
 
 
 ##### Table of Contents  
-- [Introduction](#introduction)
 - [Getting Started](#getting-started)  
   - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Technologies](#technologies)
 
-## Introduction
-This is a REST API for S3 operations such as listing and downloading objects in-browser.
-
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 The ___app.js___ file holds the structure of the web API and makes it available. The _route_ folder contains the scripts that route the requests to the appropriate controller function. The _controller_ folder contains the scripts handling the requests which are addressed to two endpoints. The _logic_ folder contains the core scripts implementing the functionalities which are provided through the endpoints.
+
+```
+trantor@guy:~/$ luds3 --help
+Usage: index [options] [command]
+
+Options:
+  -h, --help                 display help for command
+
+Commands:
+  set-credentials [options]  Setup aws IAM user credentials to access S3 resources.
+  get-credentials            Get user credentials for IAM user.
+  run-api [options]          Deploys the api to list and download items from the bucket param.
+  list [options]             Lists all items and folders inside a bucket.
+  download [options]         Downloads file from S3 bucket.
+  upload [options]           Uploads file in S3 bucket.
+  help [command]             display help for command
+```
 
 ### Prerequisites
 Installing Node and NPM is pretty straightforward using the installer package available from the (Node.js® web site)[https://nodejs.org/en/]. Having NPM installed, several dependencies should be installed as described in the next section.
