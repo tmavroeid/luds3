@@ -11,7 +11,6 @@ const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 const info = (msg) => logger.log('info', `${msg}`)
 const error = (msg, stacktrace = undefined) => logger.log('error', `${msg}`, stacktrace)
 const userCreds = conf.get('user-creds')
-
 AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
 
 function getS3object (fileKey){
@@ -49,7 +48,7 @@ function download (bucket, fileKey){
   let key = path.basename(fileKey)
   let file = fs.createWriteStream(__dirname+'/'+key)
   return new Promise((resolve, reject) => {
-    s3.getObject(fileParams).createReadStream()
+    return s3.getObject(fileParams).createReadStream()
     .on('end', () => {
         return resolve();
     })
@@ -100,9 +99,6 @@ function upload (bucket, filePath, prefix){
 
 }
 
-
-
-
 function listObjects (params, s3, s3buckets = []) {
   return new Promise((resolve, reject) => {
     s3.listObjectsV2(params).promise()
@@ -146,6 +142,7 @@ function getS3directorylisting (bucket) {
     return error
   })
 }
+
 module.exports = {
   getS3object,
   download,
