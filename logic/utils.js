@@ -11,6 +11,7 @@ const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 const info = (msg) => logger.log('info', `${msg}`)
 const error = (msg, stacktrace = undefined) => logger.log('error', `${msg}`, stacktrace)
 const userCreds = conf.get('user-creds')
+const log = console.log
 AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
 
 function getS3object (fileKey) {
@@ -75,25 +76,62 @@ function upload (bucket, filePath, prefix) {
     Prefix,
     MaxKeys
   }
-  return new Promise((resolve, reject) => {
-    s3.listObjectsV2(params).promise()
-      .then(({ Contents, IsTruncated, NextContinuationToken }) => {
-        if (Contents.length > 0) {
-          resolve(s3.upload({
-            Bucket: bucketname,
-            Key: fileName,
-            Body: blob
-          }).promise())
-        } else {
-          reject('THE PREFIX DOES NOT EXIST')
-        }
-      })
-  })
-    .then((uploadedImage) => {
-      return uploadedImage.Location
+  const fileKey = prefix + '/' + fileName
+  // return new Promise((resolve, reject) => {
+  return s3.listObjectsV2(params).promise()
+    .then(({ Contents, IsTruncated, NextContinuationToken }) => {
+      if (Contents.length > 0) {
+        return s3.upload({
+          Bucket: bucketname,
+          Key: fileKey,
+          Body: blob
+        }).promise()
+      } else {
+        reject('THE PREFIX DOES NOT EXIST')
+      }
+    })
+    .then((uploadedFile) => {
+      log(chalk.green.italic(uploadedFile.Location))
+      return uploadedFile.Location
     })
     .catch((err) => {
       error(err, err.stack)
+      return err
+    })
+}
+
+function deleteKey (bucket, fileKey) {
+  const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
+  if (typeof bucket === 'undefined') {
+    error(chalk.red.bold('MISSING BUCKET'))
+    return false
+  }
+  if (typeof fileKey === 'undefined') {
+    error(chalk.red.bold('MISSING KEY'))
+    return false
+  }
+  const s3 = new AWS.S3()
+  const Bucket = bucketname
+  const Key = fileKey
+  const params = {
+    Bucket,
+    Key
+  }
+  return s3.headObject(params).promise()
+    .then((res) => {
+      info(chalk.green.italic('FILE FOUND IN S3'))
+      return s3.deleteObject(params).promise()
+        .then((result) => {
+          info(chalk.green.italic('FILE DELETED SUCCESSFULLY'))
+          return true
+        })
+        .catch((err) => {
+          error(chalk.red.bold('ERROR DELETING THE FILE'), err.stack)
+          return err
+        })
+    })
+    .catch((err) => {
+      error(chalk.red.bold('ERROR FINDING THE FILE'), err.stack)
       return err
     })
 }
@@ -146,6 +184,7 @@ module.exports = {
   getS3object,
   download,
   upload,
+  deleteKey,
   bytesToNiceFormat,
   getS3directorylisting
 }

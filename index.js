@@ -2,7 +2,15 @@
 const { program } = require('commander')
 const path = require('path')
 const logger = require('./common/logger')
-const { setupCredentials, getCredentials, listing, downloadFile, uploadFile, deploy } = require(path.join(__dirname, '/luds3.js'))
+const {
+  setupCredentials,
+  getCredentials,
+  listing,
+  downloadFile,
+  uploadFile,
+  deleteFile,
+  deploy
+} = require(path.join(__dirname, '/luds3.js'))
 
 program
   .command('set-credentials')
@@ -44,4 +52,10 @@ program
   .description('Uploads file in S3 bucket.')
   .action(uploadFile)
 
+program
+  .command('delete')
+  .requiredOption('-bucket, --bucket <value>', 'The bucket to find the selected file (key).')
+  .requiredOption('-key, --key <value>', 'The item (key) to delete.')
+  .description('Deletes file in S3 bucket.')
+  .action(deleteFile)
 program.parse()
