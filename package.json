@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "format": "standard --fix"
+    "format": "standard --fix",
+    "test": "jest --verbose",
+    "test:coverage": "npm test -- --coverage"
   },
   "bin": {
     "luds3": "./index.js"

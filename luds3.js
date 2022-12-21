@@ -10,7 +10,6 @@ const chalk = require('chalk')
 const info = (msg) => logger.log('info', `${msg}`)
 const error = (msg, stacktrace = undefined) => logger.log('error', `[Controllers] ${msg}`, stacktrace)
 
-
 function setupCredentials ({ accesskey, secretkey, region }) {
   let userCreds = conf.get('user-creds')
   if (!userCreds) {
@@ -41,7 +40,7 @@ function getCredentials () {
 function listing ({ bucket }) {
   return getS3directorylisting(bucket)
     .then((s3keys) => {
-      if(Array.isArray(s3keys)){
+      if (Array.isArray(s3keys)) {
         s3keys.forEach((element) => {
           if (element.Size === 0) {
             info(chalk.white.italic(element.Key))
@@ -49,7 +48,7 @@ function listing ({ bucket }) {
             info(chalk.white.italic(element.Key) + ' -- ' + chalk.white.italic(bytesToNiceFormat(element.Size)))
           }
         })
-      }else{
+      } else {
         info(chalk.red.italic('SOMETHING WENT WRONG RETRIEVING THE S3 KEYS'))
       }
       return true
@@ -59,8 +58,8 @@ function listing ({ bucket }) {
     })
 }
 
-function downloadFile ({bucket,key}) {
-  return download(bucket,key)
+function downloadFile ({ bucket, key }) {
+  return download(bucket, key)
     .then((result) => {
       return result
     }).catch((err) => {
@@ -69,7 +68,7 @@ function downloadFile ({bucket,key}) {
     })
 }
 
-function uploadFile ({bucket, filepath, prefix}) {
+function uploadFile ({ bucket, filepath, prefix }) {
   return upload(bucket, filepath, prefix)
     .then((result) => {
       return result

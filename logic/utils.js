@@ -13,90 +13,89 @@ const error = (msg, stacktrace = undefined) => logger.log('error', `${msg}`, sta
 const userCreds = conf.get('user-creds')
 AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
 
-function getS3object (fileKey){
+function getS3object (fileKey) {
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
   if (typeof bucketname === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
     return false
   }
-  
+
   const s3 = new AWS.S3()
   // Create the parameters for getting the object of a specific key
   const fileParams = {
     Bucket: bucketname,
     Key: fileKey
   }
-  let key = path.basename(fileKey)
+  const key = path.basename(fileKey)
   return new Promise((resolve, reject) => {
     return resolve(s3.getObject(fileParams).createReadStream())
   })
 }
 
-function download (bucket, fileKey){
+function download (bucket, fileKey) {
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
   if (typeof bucketname === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
     return false
   }
-  
+
   const s3 = new AWS.S3()
   // Create the parameters for getting the object of a specific key
   const fileParams = {
     Bucket: bucketname,
     Key: fileKey
   }
-  let key = path.basename(fileKey)
-  let file = fs.createWriteStream(__dirname+'/'+key)
+  const key = path.basename(fileKey)
+  const file = fs.createWriteStream(__dirname + '/' + key)
   return new Promise((resolve, reject) => {
     return s3.getObject(fileParams).createReadStream()
-    .on('end', () => {
-        return resolve();
-    })
-    .on('error', (error) => {
-        return reject(error);
-    }).pipe(file)
-  });
+      .on('end', () => {
+        return resolve()
+      })
+      .on('error', (error) => {
+        return reject(error)
+      }).pipe(file)
+  })
 }
 
-function upload (bucket, filePath, prefix){
+function upload (bucket, filePath, prefix) {
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
   if (typeof bucketname === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
     return false
   }
-  const s3 = new AWS.S3() 
+  const s3 = new AWS.S3()
   const blob = fs.readFileSync(filePath)
-  let fileName = path.basename(filePath)
-  const Bucket = bucketname;
+  const fileName = path.basename(filePath)
+  const Bucket = bucketname
   const Prefix = prefix
   const MaxKeys = 1
   const params = {
-        Bucket,
-        Prefix,
-        MaxKeys
+    Bucket,
+    Prefix,
+    MaxKeys
   }
   return new Promise((resolve, reject) => {
     s3.listObjectsV2(params).promise()
       .then(({ Contents, IsTruncated, NextContinuationToken }) => {
-        if(Contents.length > 0) {
+        if (Contents.length > 0) {
           resolve(s3.upload({
             Bucket: bucketname,
             Key: fileName,
-            Body: blob,
+            Body: blob
           }).promise())
         } else {
           reject('THE PREFIX DOES NOT EXIST')
         }
       })
   })
-  .then((uploadedImage)=>{
-    return uploadedImage.Location
-  })
-  .catch((err)=>{
-    error(err, err.stack)
-    return err
-  })
-
+    .then((uploadedImage) => {
+      return uploadedImage.Location
+    })
+    .catch((err) => {
+      error(err, err.stack)
+      return err
+    })
 }
 
 function listObjects (params, s3, s3buckets = []) {
@@ -108,7 +107,7 @@ function listObjects (params, s3, s3buckets = []) {
       })
       .catch(reject)
   })
-} 
+}
 
 // this is the function used to convert the size that the s3 objects have in bytes to nice readable format
 function bytesToNiceFormat (x) {

@@ -36,11 +36,11 @@ program
   .description('Downloads file from S3 bucket.')
   .action(downloadFile)
 
-  program
+program
   .command('upload')
   .requiredOption('-bucket, --bucket <value>', 'The bucket to which the selected item will be uploaded.')
   .requiredOption('-filepath, --filepath <value>', 'The absolute filepath for the selected file.')
-  .requiredOption('-prefix, --prefix <value>', 'The destination folder path (prefix) in the bucket to save the file.' )
+  .requiredOption('-prefix, --prefix <value>', 'The destination folder path (prefix) in the bucket to save the file.')
   .description('Uploads file in S3 bucket.')
   .action(uploadFile)
 
