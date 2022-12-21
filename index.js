@@ -18,7 +18,7 @@ program
   .action(getCredentials)
 
 program
-  .command('run-api')
+  .command('run-server')
   .requiredOption('-bucket, --bucket <value>', 'The bucket to list all items.')
   .description('Deploys the api to list and download items from the bucket param.')
   .action(deploy)
