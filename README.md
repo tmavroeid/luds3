@@ -15,7 +15,7 @@ By running the `--help`, the luds3 will print out all required to get you starte
 
 ```
 trantor@guy:~/$ luds3 --help
-Usage: index [options] [command]
+Usage: luds3 [options] [command]
 
 Options:
   -h, --help                 display help for command
@@ -37,7 +37,7 @@ Commands:
 - The `download` command will download a chosen item with a specific `prefix` from inside a `bucket`
 - The `upload` command will upload an item from local storage inside a chosen `bucket`
 - The `delete` command will delete an item in a chosen `bucket`
-- The `run-api` command will deploy an express server which will list at `localhost:8008` the items of a bucket giving the opportunity to download any of them.
+- The `run-server` command will deploy an express server which will list at `localhost:8008` the items of a bucket giving the opportunity to download any of them.
 
 ## Examples
 
@@ -69,6 +69,17 @@ Upload:
 
 ```
 luds3 upload -bucket mymages -filepath /home/guy/Documents/test/test.jpg -prefix purple
+```
+
+Download:
+
+```
+luds3 download -bucket mymages -key blue/pexels-anjana-c-674010.jpg
+```
+
+Run-Server:
+```
+luds3 run-server -bucket mymages
 ```
 
 ### Development
