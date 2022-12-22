@@ -4,7 +4,7 @@ This is a CLI tool that enables fast content listing of S3 buckets. Also, it all
 
 ##### Table of Contents  
 - [Getting Started](#getting-started)  
-  - [Prerequisites](#prerequisites)
+- [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Examples](#examples)
 - [Development](#development)
@@ -29,10 +29,13 @@ Commands:
   upload [options]           Uploads file in S3 bucket.
   help [command]             display help for command
 ```
+## Prerequisites
+`luds3` requires an `IAM` account with full privileges to access the S3 resources where the S3 buckets to perform all operations, reside. 
+
 ## Usage
+`luds3` consists of the following commands:
 
-`luds3` requires an `IAM` account with full privileges to access the S3 resources. 
-
+- The `set-credentials` command will help you setup the **ACCESS KEY**, **SECRET ACCESS KEY** and **REGION**.
 - The `list` command will iterate over a chosen `bucket` and list all items
 - The `download` command will download a chosen item with a specific `prefix` from inside a `bucket`
 - The `upload` command will upload an item from local storage inside a chosen `bucket`
