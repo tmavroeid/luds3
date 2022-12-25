@@ -1,6 +1,10 @@
 # luds3
 This is a CLI tool that enables fast content listing of S3 buckets. Also, it allows to easily upload and download files.
 
+<h1 align="center">
+  <img width="400" src="img/luds3.png" alt="luds3 header">
+  <br/>
+</hr>
 
 ##### Table of Contents  
 - [Getting Started](#getting-started)  
@@ -11,7 +15,7 @@ This is a CLI tool that enables fast content listing of S3 buckets. Also, it all
 - [Technologies](#technologies)
 
 ## Getting Started
-By running the `--help`, the luds3 will print out all required to get you started:
+By running the `--help`, the `luds3` will print out all required to get you started:
 
 ```
 trantor@guy:~/$ luds3 --help
@@ -27,6 +31,7 @@ Commands:
   list [options]             Lists all items and folders inside a bucket.
   download [options]         Downloads file from S3 bucket.
   upload [options]           Uploads file in S3 bucket.
+  delete [options]           Deletes file in S3 bucket.
   help [command]             display help for command
 ```
 ## Prerequisites
