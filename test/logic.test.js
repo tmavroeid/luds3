@@ -8,16 +8,15 @@ jest.mock('aws-sdk', () => {
 })
 jest.mock('conf', () => {
   const Conf = jest.fn().mockImplementation(() => {
-    return{
+    return {
       get: jest.fn((param1) => {
         return {
-          accessKeyId: 'jiFVbfdaisbn23iya1sBN0', 
-          secretAccessKey: 'fkojadfoiunauinfdiuna', 
+          accessKeyId: 'jiFVbfdaisbn23iya1sBN0',
+          secretAccessKey: 'fkojadfoiunauinfdiuna',
           region: 'eu-central-1'
         }
       })
     }
-   
   })
   return Conf
 })
