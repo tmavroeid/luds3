@@ -1,5 +1,5 @@
 # luds3
-This is a CLI tool that enables fast content listing of S3 buckets. Also, it allows to easily upload and download files.
+This is a CLI tool that enables fast content listing of S3 buckets. Also, it allows to easily upload, download and delete files.
 
 <h1 align="center">
   <img width="400" src="img/luds3.png" alt="luds3 header">
