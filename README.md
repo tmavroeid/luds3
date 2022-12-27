@@ -12,6 +12,7 @@ This is a CLI tool that enables fast content listing of S3 buckets. Also, it all
 - [Usage](#usage)
 - [Examples](#examples)
 - [Development](#development)
+- [License](#license)
 - [Technologies](#technologies)
 
 ## Getting Started
@@ -90,7 +91,7 @@ Run-Server:
 luds3 run-server -bucket mymages
 ```
 
-### Development
+## Development
 Installing Node and NPM is pretty straightforward using the installer package available from the (Node.js® web site)[https://nodejs.org/en/]. Having NPM installed, several dependencies should be installed as described in the next section.
 
 
@@ -99,6 +100,8 @@ Using NPM, install system specific software dependencies enclosed to package.jso
 ```
 npm install
 ```
+## License
+MIT -- take a look [LICENSE](LICENSE.md)
 
 ## Technologies
 * [Nodejs](https://nodejs.org/en/)
