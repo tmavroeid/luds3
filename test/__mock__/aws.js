@@ -8,10 +8,10 @@ module.exports = {
   },
   S3: function () {
     return {
-      getObject: function (param1) {
+      getObject: function (params) {
         return {
           createReadStream: jest.fn().mockImplementation((value) => {
-            switch (param1) {
+            switch (params.Key) {
               case '0xd5e099c71b797516c10ed0f0d895f429c27811239832492184923841':
                 return Promise.reject(new Error('Whoops!'))
               default:
@@ -20,17 +20,61 @@ module.exports = {
           })
         }
       },
-      listObjectsV2: function (param1) {
-        return Promise.resolve(true)
-      },
-      headBucket: jest.fn().mockImplementation((value) => {
-        switch (value) {
-          case '0xd5e099c71b797516c10ed0f0d895f429c2781146':
-            return false
-          default:
-            return true
+      listObjectsV2: function () {
+        return {
+            promise : function (param1) {
+              return Promise.resolve({ Contents: ['purple','yellow/ok.png','sk/lkn.tmp'], IsTruncated: false, NextContinuationToken: 'fsdfwf7asy6xf6a' })
+          }
         }
-      })
+      },
+      upload: function (params) {
+        return {
+            promise : function () {
+              switch (params.Key) {
+                case 'red/test.jpg':
+                  return Promise.reject(new Error('Whoops!'))
+                default:
+                  return Promise.resolve({ Location: params.Key })
+              }
+          }
+        }
+      },
+      deleteObject: function (params) {
+        return {
+            promise : function () {
+              switch (params.Key) {
+                case 'yellow/test.jpg':
+                  return Promise.reject(new Error('Whoops!'))
+                default:
+                  return Promise.resolve(true)
+              }
+          }
+        }
+      },
+      headObject: function (params) {
+        return {
+            promise : function () {
+              switch (params.Key) {
+                case 'red/test.jpg':
+                  return Promise.reject(new Error('Whoops!'))
+                default:
+                  return Promise.resolve(true)
+              }
+          }
+        }
+      },
+      headBucket: function (params) {
+        return {
+            promise : function () {
+              switch (params.Bucket) {
+                case 'wrong':
+                  return Promise.reject(new Error('Whoops!'))
+                default:
+                  return Promise.resolve(true)
+              }
+          }
+        }
+      },
     }
   }
 }
