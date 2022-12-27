@@ -12,7 +12,8 @@ This is a CLI tool that enables fast content listing of S3 buckets. Also, it all
 [![Github Issues](https://img.shields.io/github/issues/tmavroeid/luds3)](https://img.shields.io/github/issues/tmavroeid/luds3)
 ![coverage](coverage/badge-functions.svg)
 
-##### Table of Contents  
+##### Table of Contents
+- [Installation](#installation)  
 - [Getting Started](#getting-started)  
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
@@ -20,6 +21,12 @@ This is a CLI tool that enables fast content listing of S3 buckets. Also, it all
 - [Development](#development)
 - [License](#license)
 - [Technologies](#technologies)
+
+## Installation
+
+```
+npm install luds3
+```
 
 ## Getting Started
 By running the `--help`, the `luds3` will print out all required to get you started:
