@@ -160,23 +160,23 @@ function bytesToNiceFormat (x) {
 
 function getS3directorylisting (bucket) {
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
+  console.log(bucketname)
   if (typeof bucketname === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
     return false
   }
-  const s3 = new AWS.S3()
   const params = {
     Bucket: bucketname
   }
-  const s3bucket = new AWS.S3({ params })
-  const s3checkbucket = s3bucket.headBucket(params).promise()
+  const s3 = new AWS.S3({ params })
   // If the bucket is valid, then the listObjects function is invoked to initiate the listing
-  return s3checkbucket.then((result) => {
+  return s3.headBucket(params).promise()
+  .then((result) => {
     info(chalk.green.italic('Valid S3 bucket.'))
     return listObjects(params, s3)
-  }).catch(function (err) {
+  }).catch((err) => {
     error(chalk.red.italic('Invalid s3 bucket.'))
-    return error
+    return err
   })
 }
 
