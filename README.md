@@ -8,7 +8,8 @@ This is a CLI tool that enables fast content listing of S3 buckets. Also, it all
 
 [![Github license](https://img.shields.io/github/license/tmavroeid/luds3)](https://img.shields.io/github/license/tmavroeid/corellia)
 [![GitHub Release](https://img.shields.io/github/release/tmavroeid/luds3.svg)](https://github.com/tmavroeid/corellia/releases)
-[![GitHub Downloads](https://img.shields.io/github/downloads/tmavroeid/luds3/total](https://img.shields.io/github/downloads/tmavroeid/luds3/total)
+[![GitHub Downloads](https://img.shields.io/github/downloads/tmavroeid/luds3/total)](https://img.shields.io/github/downloads/tmavroeid/luds3/total)
+[![Github Issues](https://img.shields.io/github/issues/tmavroeid/luds3)](https://img.shields.io/github/issues/tmavroeid/luds3)
 ![coverage](coverage/badge-functions.svg)
 
 ##### Table of Contents  
