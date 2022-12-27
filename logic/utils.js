@@ -160,7 +160,6 @@ function bytesToNiceFormat (x) {
 
 function getS3directorylisting (bucket) {
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
-  console.log(bucketname)
   if (typeof bucketname === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
     return false
@@ -185,6 +184,7 @@ module.exports = {
   download,
   upload,
   deleteKey,
+  listObjects,
   bytesToNiceFormat,
   getS3directorylisting
 }

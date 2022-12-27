@@ -20,10 +20,15 @@ module.exports = {
           })
         }
       },
-      listObjectsV2: function () {
+      listObjectsV2: function (params) {
         return {
-            promise : function (param1) {
-              return Promise.resolve({ Contents: ['purple','yellow/ok.png','sk/lkn.tmp'], IsTruncated: false, NextContinuationToken: 'fsdfwf7asy6xf6a' })
+            promise : function () {
+              switch (params.Bucket) {
+                case 'wrong':
+                  return Promise.reject('Whoops!')
+                default:
+                  return Promise.resolve({ Contents: ['purple','yellow/ok.png','sk/lkn.tmp'], IsTruncated: false, NextContinuationToken: 'fsdfwf7asy6xf6a' })
+              }
           }
         }
       },

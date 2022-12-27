@@ -1,0 +1,3 @@
+{"total": {"lines":{"total":95,"covered":72,"skipped":0,"pct":75.78},"statements":{"total":98,"covered":75,"skipped":0,"pct":76.53},"functions":{"total":24,"covered":20,"skipped":0,"pct":83.33},"branches":{"total":38,"covered":19,"skipped":0,"pct":50},"branchesTrue":{"total":0,"covered":0,"skipped":0,"pct":"Unknown"}}
+,"/home/teo/Documents/luds3/logic/utils.js": {"lines":{"total":95,"covered":72,"skipped":0,"pct":75.78},"functions":{"total":24,"covered":20,"skipped":0,"pct":83.33},"statements":{"total":98,"covered":75,"skipped":0,"pct":76.53},"branches":{"total":38,"covered":19,"skipped":0,"pct":50}}
+}

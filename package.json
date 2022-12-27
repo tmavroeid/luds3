@@ -6,7 +6,8 @@
     "start": "node server.js",
     "format": "standard --fix",
     "test": "jest --verbose",
-    "test:coverage": "npm test -- --coverage"
+    "test:coverage": "npm test -- --coverage",
+    "test:badges": "npm run test:coverage  && jest-coverage-badges"
   },
   "bin": {
     "luds3": "./index.js"
@@ -40,5 +41,8 @@
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.6.0",
     "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "jest-coverage-badges": "^1.1.2"
   }
 }

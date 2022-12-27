@@ -1,6 +1,7 @@
 /* eslint-env jest */
 const path = require('path')
-const { getS3object, upload, deleteKey, listObjects, getS3directorylisting } = require(path.join(__dirname, '../logic/utils'))
+const { getS3object, upload, deleteKey, download, listObjects, bytesToNiceFormat, getS3directorylisting } = require(path.join(__dirname, '../logic/utils'))
+const AWS = require('./__mock__/aws.js')
 
 jest.mock('aws-sdk', () => {
   const AWS = require('./__mock__/aws.js')
@@ -93,4 +94,45 @@ describe('getS3directorylisting', function () {
     expect(res.message).toBe('Whoops!')
   })
 
+})
+
+describe('bytesToNiceFormat', function () {
+  beforeEach(() => {
+    jest.resetModules()
+  })
+
+  test('should return KB', async () => {
+    const res = await bytesToNiceFormat(100000)
+    expect(res).toBe('98 KB')
+  })
+
+})
+
+describe('listObjects', function () {
+  beforeEach(() => {
+    jest.resetModules()
+  })
+
+  test('should return objects', async () => {
+    const params = {
+      Bucket: 'myimages'
+    }
+    const s3 = new AWS.S3({ params })
+    const objects = await listObjects(params, s3)
+    expect(objects[0]).toBe('purple')
+    expect(objects[2]).toBe('sk/lkn.tmp')
+    expect(objects.length).toBe(3)
+  })
+
+  test('should return error', () => {
+    const params = {
+      Bucket: 'wrong'
+    }
+    const s3 = new AWS.S3({ params })
+    listObjects(params, s3)
+    .catch((err)=>{
+      expect(err).toBe('Whoops!')
+    })
+    
+  })
 })
