@@ -11,6 +11,16 @@
   "bin": {
     "luds3": "./index.js"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "test/__mock__"
+    ],
+    "coverageReporters": [
+      "json-summary",
+      "text"
+    ]
+  },
   "dependencies": {
     "aws-sdk": "^2.1268.0",
     "chalk": "^3.0.0",
