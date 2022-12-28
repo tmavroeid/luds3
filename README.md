@@ -70,7 +70,7 @@ Commands:
 Set-Credentials:
 
 ```
-trantor@guy:~/$ luds3 set-credentials -accessKey AKIISDHHTNHOJKIEMWGM3C -secretkey jd78day7d78878NnNAS/PQ+Rmt6IWJDIDtmjd -region eu-central-1
+trantor@guy:~/$ luds3 set-credentials -accesskey AKIISDHHTNHOJKIEMWGM3C -secretkey jd78day7d78878NnNAS/PQ+Rmt6IWJDIDtmjd -region eu-central-1
 ```
 
 List:
