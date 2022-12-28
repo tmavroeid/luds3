@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "luds3",
   "version": "0.0.5",
   "scripts": {
     "start": "node server.js",
