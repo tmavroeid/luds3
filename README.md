@@ -67,6 +67,12 @@ Commands:
 
 ## Examples
 
+Set-Credentials:
+
+```
+trantor@guy:~/$ luds3 set-credentials -accessKey AKIISDHHTNHOJKIEMWGM3C -secretkey jd78day7d78878NnNAS/PQ+Rmt6IWJDIDtmjd -region eu-central-1
+```
+
 List:
 
 ```
