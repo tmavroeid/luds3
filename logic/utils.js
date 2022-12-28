@@ -12,9 +12,9 @@ const info = (msg) => logger.log('info', `${msg}`)
 const error = (msg, stacktrace = undefined) => logger.log('error', `${msg}`, stacktrace)
 const userCreds = conf.get('user-creds')
 const log = console.log
-AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
 
 function getS3object (fileKey) {
+  AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
   if (typeof bucketname === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
@@ -60,6 +60,7 @@ function download (bucket, fileKey) {
 }
 
 function upload (bucket, filePath, prefix) {
+  AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
   if (typeof bucketname === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
@@ -101,6 +102,7 @@ function upload (bucket, filePath, prefix) {
 }
 
 function deleteKey (bucket, fileKey) {
+  AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
   if (typeof bucket === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
@@ -159,6 +161,7 @@ function bytesToNiceFormat (x) {
 }
 
 function getS3directorylisting (bucket) {
+  AWS.config.update({ accessKeyId: userCreds.accesskey, secretAccessKey: userCreds.secretkey, region: userCreds.region })
   const bucketname = typeof bucket !== 'undefined' ? bucket : process.env.AWS_BUCKET_NAME
   if (typeof bucketname === 'undefined') {
     error(chalk.red.bold('MISSING BUCKET'))
