@@ -1,6 +1,6 @@
 {
   "name": "luds3",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "scripts": {
     "start": "node server.js",
     "format": "standard --fix",
