@@ -1,12 +1,17 @@
 {
   "name": "luds3",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "start": "node server.js",
     "format": "standard --fix",
     "test": "jest --verbose",
     "test:coverage": "npm test -- --coverage",
     "test:badges": "npm run test:coverage  && jest-coverage-badges"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tmavroeid/luds3.git",
+    "homepage": "https://github.com/tmavroeid/luds3.git"
   },
   "bin": {
     "luds3": "./index.js"
