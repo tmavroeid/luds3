@@ -1,6 +1,6 @@
 {
   "name": "luds3",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "start": "node server.js",
     "format": "standard --fix",
@@ -26,6 +26,8 @@
       "text"
     ]
   },
+  "author": "Thodoris Mavroeidakos",
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.1268.0",
     "chalk": "^3.0.0",
